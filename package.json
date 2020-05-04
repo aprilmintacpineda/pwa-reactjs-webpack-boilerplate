@@ -1,7 +1,7 @@
 {
   "name": "pwa-reactjs-webpack-boilerplate",
   "version": "1.0.0",
-  "description": "Boiler for a PWA using ReactJS and Webpack with support for S3 static hosting upload.",
+  "description": "Boiler for a PWA using react-js, material-ui and webpack with support for s3 static hosting upload.",
   "scripts": {
     "jest": "jest",
     "jest-watch": "jest --watchAll",
