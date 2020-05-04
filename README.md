@@ -1,8 +1,8 @@
 # pwa-reactjs-webpack-boilerplate
 
-A boilerplate for your **Progressive Web App (PWA)** with **react-js**, **material-ui**, **fluxible-js**, and **react-fluxible** using **webpack** with S3 Static Hosting built-in support.
+A boilerplate for your **Progressive Web App (PWA)** with **react-js**, **material-ui**, **fluxible-js**, and **react-fluxible** using **webpack** with S3 Static Hosting built-in support. Also has built-in code formatting using **eslint**, **prettier**. Codes will be formatted on commit using **husky** and **lint-staged**.
 
-# Setting up
+# Getting started
 
 ## Install
 
@@ -10,6 +10,7 @@ A boilerplate for your **Progressive Web App (PWA)** with **react-js**, **materi
 - Rename folder to `<your_project>` -- `mv pwa-reactjs-webpack-boilerplate <your_project>`
 - `cd <your_project>`
 - Delete the `.git` directory because you won't need it -- `rm -rf .git`
+- Change name, description, author, and license on `package.json`.
 - `npm i` -- Optionally you can use **npm-check** and do `npm-check -u` to update and install the dependencies.
 
 ## favicons
@@ -55,9 +56,13 @@ Feel free to open an issue anytime.
 - [material-ui](http://material-ui.com/)
 - [webpack](https://webpack.js.org/)
 - [NodeJS](https://nodejs.org/)
-- [npm-check](https://www.npmjs.com/package/npm-check)
+- [npm-check](https://github.com/dylang/npm-check)
 - [react-fluxible](https://github.com/aprilmintacpineda/react-fluxible)
 - [fluxible-js](https://github.com/aprilmintacpineda/fluxible-js)
+- [eslint](https://eslint.org/)
+- [prettier](https://prettier.io/)
+- [husky](https://github.com/typicode/husky)
+- [lint-staged](https://github.com/okonet/lint-staged)
 
 # Credits
 
