@@ -3,7 +3,7 @@
 const path = require('path');
 
 module.exports = {
-  ...require('./webpack.base')(),
+  ...require('./base')(),
   mode: 'development',
   watch: true,
   devtool: 'source-map',

@@ -1,6 +1,6 @@
 /** @format */
 
 module.exports = {
-  ...require('./webpack.base')(true),
+  ...require('./base')(true),
   mode: 'production'
 };

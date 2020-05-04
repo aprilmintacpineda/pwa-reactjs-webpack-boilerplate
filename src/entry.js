@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === 'production' && (!('Promise' in window) || !('fetch
       persist: {
         syncStorage: window.localStorage,
         restore: savedStore => ({
-          authUser: savedStore.authUser || { name: 'Test User' }
+          authUser: savedStore.authUser || { name: 'April Mintac Pineda' }
         })
       }
     });

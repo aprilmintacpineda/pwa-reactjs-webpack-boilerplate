@@ -12,3 +12,4 @@ build
 *.srl
 *.pem
 database.json
+configs/uploadToS3.js

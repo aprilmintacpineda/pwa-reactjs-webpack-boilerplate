@@ -30,6 +30,17 @@ All JS files are in `src` folder, start by going to `src/entry.js` which is the 
 
 To build for production just do `npm run build`. It will generate a production build of your app in `build` directory, this directory is ready to be deployed to production. If you want to preview the production build, you can do so with `npm run serve`. Running `npm run start` will do both of these commands.
 
+## Uploading to S3
+
+The boilerplate supports uploading the build to an S3 bucket.
+
+1. Create S3 bucket and enable static file hosting.
+2. Rename `configs/uploadToS3.example.js` to `configs/uploadToS3.js` -- `mv configs/uploadToS3.example.js configs/uploadToS3.js`.
+3. Create an IAM user with programmatic access to be used for the uploader, and get the `access key id` and `secret access key` and put those in the `configs/uploadToS3.js` files.
+4. do `npm run build` and then `npm run uploadToS3` -- or you can also do `npm run deployToS3` which will do both.
+
+The upload process will also delete old files after successful upload.
+
 # Issues
 
 Feel free to open an issue anytime.
