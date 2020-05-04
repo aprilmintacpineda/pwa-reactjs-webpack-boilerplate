@@ -16,12 +16,10 @@ const { env } = argv({ env: 'dev' });
 if (!(env in config))
   throw new Error(`Target env configuration, "${env}", was not found in "configs/uploadToS3".`);
 
-
 const { bucket, accessKeyId, secretAccessKey } = config[env];
 
 if (!accessKeyId || !secretAccessKey)
   throw new Error(`Please specify "accessKeyId" and "secretAccessKey" for env ${env}.`);
-
 
 const path = require('path');
 const fs = require('fs');
@@ -73,9 +71,7 @@ const uploadProcess = {
           uploadResources.objectKeysToRemove = data.Contents.map(object => object.Key).filter(
             key => {
               const filePath = path.join(rootDir, 'build', key);
-
               if (fs.existsSync(filePath)) return !fs.statSync(filePath).isDirectory();
-
               return true;
             }
           );
