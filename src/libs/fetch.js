@@ -19,7 +19,7 @@ export async function xhr (url, options) {
     });
   }
 
-  if (response.status !== 200) throw response;
+  if (response.status > 299 || response.status < 200) throw response;
   return response;
 }
 

@@ -197,11 +197,7 @@ module.exports = isProduction => {
         routes: path.join(root, 'src/routes'),
         libs: path.join(root, 'src/libs'),
         root: path.join(root, 'src'),
-        actions: path.join(root, 'src/store/actions'),
-        styles: path.join(root, 'src/styles'),
-        hoc: path.join(root, 'src/hoc'),
-        modules: path.join(root, 'src/modules'),
-        topbar: path.join(root, 'src/Main/TopBar'),
+        hooks: path.join(root, 'src/hooks'),
         polyfills: path.join(root, 'src/polyfills')
       }
     }

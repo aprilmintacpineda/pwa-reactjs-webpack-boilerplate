@@ -60,12 +60,14 @@ if (process.env.NODE_ENV === 'production' && (!('Promise' in window) || !('fetch
     // once all polyfills has loaded, we can initialize the application
     initializeStore({
       initialStore: {
-        authUser: null
+        authUser: {
+          name: 'April Mintac Pineda'
+        }
       },
       persist: {
         syncStorage: window.localStorage,
         restore: savedStore => ({
-          authUser: savedStore.authUser || { name: 'April Mintac Pineda' }
+          authUser: savedStore.authUser
         })
       }
     });
