@@ -27,10 +27,17 @@ function useForm ({
   const setValue = React.useCallback((name, value) => {
     setState(oldState => {
       const errors = { ...oldState.formErrors };
-      const values = {
-        ...oldState.formValues,
-        [name]: value
-      };
+
+      const values =
+        name.constructor === Function
+          ? {
+              ...oldState.formValues,
+              ...name(oldState.formValues)
+            }
+          : {
+              ...oldState.formValues,
+              [name]: value
+            };
 
       const validator = formValidators.current[name];
       if (validator) errors[name] = validator(values);
