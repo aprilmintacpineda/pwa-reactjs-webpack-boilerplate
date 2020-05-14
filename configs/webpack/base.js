@@ -198,7 +198,8 @@ module.exports = isProduction => {
         libs: path.join(root, 'src/libs'),
         root: path.join(root, 'src'),
         hooks: path.join(root, 'src/hooks'),
-        polyfills: path.join(root, 'src/polyfills')
+        polyfills: path.join(root, 'src/polyfills'),
+        contexts: path.join(root, 'src/contexts')
       }
     }
   };

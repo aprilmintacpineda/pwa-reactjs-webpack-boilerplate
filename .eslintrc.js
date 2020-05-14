@@ -37,6 +37,7 @@ module.exports = {
         includeExports: true
       }
     ],
+    'react/prop-types': 0,
     'rest-spread-spacing': ['error', 'never'],
     'jsx-quotes': ['error', 'prefer-double'],
     'prefer-spread': ['error'],
