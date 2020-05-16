@@ -117,13 +117,17 @@ module.exports = isProduction => {
         defaultAttribute: 'defer',
         preload: /\.js$/
       }),
-      new CopyWebpackPlugin([
-        {
-          from: path.join(root, 'public'),
-          to: path.join(root, 'build'),
-          ignore: ['index.html']
-        }
-      ])
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.join(root, 'public'),
+            to: path.join(root, 'build'),
+            globOptions: {
+              ignore: ['index.html']
+            }
+          }
+        ]
+      })
     ],
     optimization: {
       runtimeChunk: true,
