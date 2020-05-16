@@ -123,7 +123,7 @@ module.exports = isProduction => {
             from: path.join(root, 'public'),
             to: path.join(root, 'build'),
             globOptions: {
-              ignore: ['index.html']
+              ignore: ['**/index.html']
             }
           }
         ]
