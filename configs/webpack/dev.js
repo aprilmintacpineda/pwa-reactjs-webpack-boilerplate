@@ -11,6 +11,7 @@ module.exports = {
     aggregateTimeout: 0
   },
   devServer: {
+    writeToDisk: true,
     watchContentBase: true,
     contentBase: path.join(__dirname, '../build'),
     contentBasePublicPath: '/',
