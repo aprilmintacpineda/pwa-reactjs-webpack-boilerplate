@@ -1,5 +1,11 @@
 /** @format */
+
 const path = require('path');
+
+require('dotenv').config({
+  path: path.join(__dirname, '../../.env')
+});
+
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHTMLWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -80,7 +86,7 @@ module.exports = isProduction => {
     plugins: [
       new EnvironmentPlugin({
         NODE_ENV: isProduction ? 'production' : 'development',
-        GA_ID: process.env.IS_SANDBOX ? 'UA-156982324-1' : isProduction ? '' : ''
+        ...process.env
       }),
       new MiniCSSExtractPlugin({
         filename: `${filenames}.css`
@@ -110,8 +116,11 @@ module.exports = isProduction => {
       new HTMLWebpackPlugin({
         minify: true,
         cache: true,
-        template: `!!raw-loader!${path.join(root, 'public/index.html')}`,
-        filename: path.join(root, 'build/index.html')
+        template: path.join(root, 'public/index.ejs'),
+        filename: path.join(root, 'build/index.html'),
+        templateParameters: {
+          title: process.env.title
+        }
       }),
       new ScriptExtHTMLWebpackPlugin({
         defaultAttribute: 'defer',

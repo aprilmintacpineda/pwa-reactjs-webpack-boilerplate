@@ -42,6 +42,9 @@ function Home () {
     [authUser]
   );
 
+  console.log('process.env.title', process.env.title);
+  console.log('process.env.foo', process.env.foo);
+
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" mt={10}>
       <Typography variant="h2">{authUser.name}</Typography>
