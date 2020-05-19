@@ -26,26 +26,23 @@ function useForm ({
 
   const setValue = React.useCallback((name, value) => {
     setState(oldState => {
-      const errors = { ...oldState.formErrors };
+      const newFormErrors = { ...oldState.formErrors };
+      const updatedValues =
+        name.constructor === Function ? name(oldState.formValues) : { [name]: value };
+      const newFormValues = {
+        ...oldState.formValues,
+        ...updatedValues
+      };
 
-      const values =
-        name.constructor === Function
-          ? {
-              ...oldState.formValues,
-              ...name(oldState.formValues)
-            }
-          : {
-              ...oldState.formValues,
-              [name]: value
-            };
-
-      const validator = formValidators.current[name];
-      if (validator) errors[name] = validator(values);
+      Object.keys(updatedValues).forEach(key => {
+        const validator = formValidators.current[key];
+        if (validator) newFormErrors[key] = validator(newFormValues);
+      });
 
       return {
         ...oldState,
-        formValues: values,
-        formErrors: errors
+        formValues: newFormValues,
+        formErrors: newFormErrors
       };
     });
   }, []);
