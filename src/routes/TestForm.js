@@ -73,7 +73,7 @@ function TestForm () {
           error={Boolean(formErrors.body)}
           disabled={submitting}
         />
-        {formErrors.title ? <Typography color="error">{formErrors.body}</Typography> : null}
+        {formErrors.body ? <Typography color="error">{formErrors.body}</Typography> : null}
       </Box>
       <Button variant="outlined" color="primary" onClick={onSubmit}>
         Post
