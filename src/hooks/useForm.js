@@ -24,6 +24,31 @@ function useForm ({
 
   const submitting = status === 'submitting';
 
+  const setForm = React.useCallback((values, errors) => {
+    setState(oldState => {
+      let newValues = values;
+      let newErrors = errors;
+
+      if (values.constructor === Function) {
+        const { formValues, formErrors } = values(oldState.formValues);
+        newValues = formValues;
+        newErrors = formErrors;
+      }
+
+      return {
+        ...oldState,
+        formValues: {
+          ...oldState.formValues,
+          ...newValues
+        },
+        formErrors: {
+          ...oldState.formErrors,
+          ...newErrors
+        }
+      };
+    });
+  }, []);
+
   const setValue = React.useCallback((name, value) => {
     setState(oldState => {
       const newFormErrors = { ...oldState.formErrors };
@@ -47,30 +72,35 @@ function useForm ({
     });
   }, []);
 
+  const validateFields = React.useCallback(
+    fields => {
+      const errors = {};
+      let hasError = false;
+
+      fields.forEach(field => {
+        const validator = formValidators.current[field];
+        if (!validator) return;
+        const error = validator(formValues);
+        if (!error) return;
+        hasError = true;
+        errors[field] = error;
+      });
+
+      if (hasError) {
+        setState(oldState => ({
+          ...oldState,
+          formErrors: errors
+        }));
+      }
+
+      return hasError;
+    },
+    [formValues]
+  );
+
   const validateForm = React.useCallback(() => {
-    const errors = {};
-    let hasError = false;
-
-    Object.keys(formValues).forEach(field => {
-      const validator = formValidators.current[field];
-      if (!validator) return;
-      const error = validator(formValues);
-      if (!error) return;
-      hasError = true;
-      errors[field] = error;
-    });
-
-    if (hasError) {
-      setState(oldState => ({
-        ...oldState,
-        formErrors: errors
-      }));
-
-      return true;
-    }
-
-    return false;
-  }, [formValues]);
+    return validateFields(Object.keys(formValues));
+  }, [formValues, validateFields]);
 
   const onSubmit = React.useCallback(async () => {
     if (submitting) return;
@@ -129,11 +159,13 @@ function useForm ({
       formValues,
       formErrors,
       setValue,
+      setForm,
       onSubmit,
       status,
-      submitting
+      submitting,
+      validateFields
     }),
-    [formValues, formErrors, setValue, onSubmit, status, submitting]
+    [formValues, formErrors, setValue, setForm, onSubmit, status, submitting, validateFields]
   );
 }
 
