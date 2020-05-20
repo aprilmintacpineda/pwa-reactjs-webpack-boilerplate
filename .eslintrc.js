@@ -27,6 +27,8 @@ module.exports = {
     allowImportExportEverywhere: true
   },
   rules: {
+    'react-hooks/exhaustive-deps': 'error',
+    'react-hooks/rules-of-hooks': 'error',
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
     curly: ['error', 'multi-or-nest', 'consistent'],
