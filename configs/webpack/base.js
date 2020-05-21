@@ -76,6 +76,10 @@ module.exports = isProduction => {
           test: /\.scss$/,
           exclude: /node_modules/,
           use: [MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
+        },
+        {
+          test: /\.css$/,
+          use: [MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader']
         }
       ]
     },
