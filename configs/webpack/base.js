@@ -49,10 +49,6 @@ module.exports = isProduction => {
                     end: '/** @end-fluxible-config-sync */'
                   },
                   {
-                    start: '/** @fluxible-config-sync */',
-                    end: '/** @end-fluxible-config-sync */'
-                  },
-                  {
                     start: '/** @fluxible-config-persist */',
                     end: '/** @end-fluxible-config-persist */'
                   },
