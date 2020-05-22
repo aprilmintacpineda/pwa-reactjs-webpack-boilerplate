@@ -32,7 +32,7 @@ function parseValue (value) {
 
 function generateEnvVars (values, prefix) {
   return Object.keys(values).reduce((accumulator, current) => {
-    if (/^app_/.test(current.toLowerCase())) {
+    if (/^APP_/.test(current)) {
       let key = current.substr(4);
       if (prefix) key = `process.env.${key}`;
       accumulator[key] = JSON.stringify(parseValue(values[current]));

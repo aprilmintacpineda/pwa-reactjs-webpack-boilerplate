@@ -55,7 +55,7 @@ The boilerplate supports uploading the build to an S3 bucket.
 
 # Environment variables
 
-You can put your environment variables in `.env` file, all environment variables in that file must be prefixed with `app_` (case-insensitive), i.e., `title=app title` becomes `app_title=app title` but you access them as `process.env.title` in your application (without prefix).
+You can put your environment variables in `.env` file, all environment variables in that file must be prefixed with `APP_` (case-sensitive), i.e., `TITLE=app title` becomes `APP_TITLE=app title` but you access them as `process.env.TITLE` in your application (without prefix).
 
 # Issues
 
