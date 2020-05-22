@@ -7,11 +7,11 @@ function resolveUrl (url = '') {
 
   try {
     // valid custom url
-    finalUrl = new URL(url);
+    finalUrl = new URL(url).toString();
   } catch (error) {
     // it's a shorthand url like /user/login
-    if (url[0] !== '/') finalUrl = `${process.env.API_URL}/${url}`;
-    finalUrl = `${process.env.API_URL}${url}`;
+    if (url[0] !== '/') finalUrl = `${process.env.api_url}/${url}`;
+    finalUrl = `${process.env.api_url}${url}`;
   }
 
   return finalUrl;

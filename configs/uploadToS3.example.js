@@ -6,7 +6,12 @@ module.exports = {
     accessKeyId: '',
     secretAccessKey: ''
   },
-  prod: {
+  staging: {
+    bucket: '',
+    accessKeyId: '',
+    secretAccessKey: ''
+  },
+  production: {
     bucket: '',
     accessKeyId: '',
     secretAccessKey: ''

@@ -13,15 +13,47 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
-const { EnvironmentPlugin } = require('webpack');
+const { DefinePlugin } = require('webpack');
 
 const root = process.cwd();
 
-module.exports = isProduction => {
+function parseValue (value) {
+  if (
+    /^[0-9]+(?:\.{1}[0-9]+)?$/gim.test(value) ||
+    /^{.*}$/gim.test(value) ||
+    /^\[.*\]$/gim.test(value) ||
+    value.toLowerCase() === 'true' ||
+    value.toLowerCase() === 'false'
+  )
+    return JSON.parse(value);
+
+  return value;
+}
+
+function generateEnvVars (prefix) {
+  return Object.keys(process.env).reduce((accumulator, current) => {
+    if (/^app_/.test(current.toLowerCase())) {
+      let key = current.substr(4);
+      if (prefix) key = `process.env.${key}`;
+      accumulator[key] = JSON.stringify(parseValue(process.env[current]));
+    }
+
+    return accumulator;
+  }, {});
+}
+
+module.exports = () => {
+  console.log('>> info: generating config for', process.env.NODE_ENV);
+
+  const isProduction = process.env.NODE_ENV === 'production';
   const filenames = isProduction ? '[id]-[hash]' : '[name]';
+
+  const envVars = generateEnvVars(true);
+  envVars['process.env'] = JSON.stringify(envVars);
 
   return {
     stats: 'errors-warnings',
+    mode: isProduction ? 'production' : 'development',
     performance: {
       hints: false
     },
@@ -84,10 +116,7 @@ module.exports = isProduction => {
       ]
     },
     plugins: [
-      new EnvironmentPlugin({
-        NODE_ENV: isProduction ? 'production' : 'development',
-        ...process.env
-      }),
+      new DefinePlugin(envVars),
       new MiniCSSExtractPlugin({
         filename: `${filenames}.css`
       }),
@@ -119,7 +148,7 @@ module.exports = isProduction => {
         template: path.join(root, 'public/index.ejs'),
         filename: path.join(root, 'build/index.html'),
         templateParameters: {
-          title: process.env.title
+          title: process.env.app_title
         }
       }),
       new ScriptExtHTMLWebpackPlugin({
