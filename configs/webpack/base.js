@@ -48,7 +48,13 @@ module.exports = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const filenames = isProduction ? '[id]-[hash]' : '[name]';
 
-  const envVars = generateEnvVars(process.env, true);
+  const envVars = generateEnvVars(
+    {
+      ...process.env,
+      APP_NODE_ENV: process.env.NODE_ENV
+    },
+    true
+  );
   envVars['process.env'] = JSON.stringify(envVars);
 
   return {
