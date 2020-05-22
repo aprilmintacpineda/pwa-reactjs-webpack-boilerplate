@@ -30,12 +30,12 @@ function parseValue (value) {
   return value;
 }
 
-function generateEnvVars (prefix) {
-  return Object.keys(process.env).reduce((accumulator, current) => {
+function generateEnvVars (values, prefix) {
+  return Object.keys(values).reduce((accumulator, current) => {
     if (/^app_/.test(current.toLowerCase())) {
       let key = current.substr(4);
       if (prefix) key = `process.env.${key}`;
-      accumulator[key] = JSON.stringify(parseValue(process.env[current]));
+      accumulator[key] = JSON.stringify(parseValue(values[current]));
     }
 
     return accumulator;
@@ -48,7 +48,7 @@ module.exports = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const filenames = isProduction ? '[id]-[hash]' : '[name]';
 
-  const envVars = generateEnvVars(true);
+  const envVars = generateEnvVars(process.env, true);
   envVars['process.env'] = JSON.stringify(envVars);
 
   return {
