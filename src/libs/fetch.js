@@ -10,8 +10,8 @@ function resolveUrl (url = '') {
     finalUrl = new URL(url).toString();
   } catch (error) {
     // it's a shorthand url like /user/login
-    if (url[0] !== '/') finalUrl = `${process.env.api_url}/${url}`;
-    finalUrl = `${process.env.api_url}${url}`;
+    if (url[0] !== '/') finalUrl = `${process.env.API_URL}/${url}`;
+    finalUrl = `${process.env.API_URL}${url}`;
   }
 
   return finalUrl;
@@ -44,9 +44,13 @@ export async function xhrWithFile (url, options) {
   Object.keys(options.body).forEach(key => {
     const value = options.body[key];
 
-    if (value.constructor === FileList)
-      for (let a = 0, maxA = value.length; a < maxA; a++) body.append(key, value[a]);
-    else body.append(key, value);
+    if (value.constructor === Array) {
+      value.forEach(val => {
+        body.append(key, val);
+      });
+    } else {
+      body.append(key, value);
+    }
   });
 
   const headers = {};
