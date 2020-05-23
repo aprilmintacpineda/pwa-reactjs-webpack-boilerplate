@@ -2,6 +2,8 @@
 
 import { store } from 'fluxible-js';
 
+import FileCollection from 'classes/FileCollection';
+
 function resolveUrl (url = '') {
   let finalUrl = '';
 
@@ -43,13 +45,14 @@ export async function xhrWithFile (url, options) {
 
   Object.keys(options.body).forEach(key => {
     const value = options.body[key];
+    const valConstructor = value.constructor;
 
-    if (value.constructor === Array) {
-      value.forEach(val => {
+    if (valConstructor === FileCollection) {
+      value.files.forEach(val => {
         body.append(key, val);
       });
     } else {
-      body.append(key, value);
+      body.append(key, JSON.stringify(value));
     }
   });
 

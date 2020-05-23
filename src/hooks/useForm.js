@@ -56,7 +56,14 @@ function useForm ({
 
   const setContext = React.useCallback((name, value) => {
     setState(oldState => {
-      const newContext = name.constructor === Function ? name(oldState.context) : { [name]: value };
+      const newContext =
+        name.constructor === Function
+          ? name({
+              formContext: oldState.formContext,
+              formValues: oldState.formValues,
+              formErrors: oldState.formErrors
+            })
+          : { [name]: value };
 
       return {
         ...oldState,

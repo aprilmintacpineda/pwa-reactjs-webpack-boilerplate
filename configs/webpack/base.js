@@ -246,7 +246,8 @@ module.exports = () => {
         root: path.join(root, 'src'),
         hooks: path.join(root, 'src/hooks'),
         polyfills: path.join(root, 'src/polyfills'),
-        contexts: path.join(root, 'src/contexts')
+        contexts: path.join(root, 'src/contexts'),
+        classes: path.join(root, 'src/classes')
       }
     }
   };
