@@ -6,19 +6,23 @@ import { xhr, xhrWithFile } from '../libs/fetch';
 
 function useForm ({
   initialValues,
-  validators,
+  validators = {},
   apiEndpoint,
   afterSubmit,
   beforeSubmit,
   method,
-  withFile
+  withFile,
+  initialContext = null,
+  callbacks = {}
 }) {
+  const initialFormContext = React.useRef(initialContext);
   const initialFormValues = React.useRef(initialValues);
-  const formValidators = React.useRef(validators || {});
+  const formValidators = React.useRef(validators);
 
-  const [{ formValues, formErrors, status }, setState] = React.useState(() => ({
+  const [{ formValues, formErrors, status, formContext }, setState] = React.useState(() => ({
     formValues: { ...initialFormValues.current },
     formErrors: {},
+    formContext: { ...initialFormContext.current },
     status: 'initial'
   }));
 
@@ -44,6 +48,20 @@ function useForm ({
         formErrors: {
           ...oldState.formErrors,
           ...newErrors
+        }
+      };
+    });
+  }, []);
+
+  const setContext = React.useCallback((name, value) => {
+    setState(oldState => {
+      const newContext = name.constructor === Function ? name(oldState.context) : { [name]: value };
+
+      return {
+        ...oldState,
+        formContext: {
+          ...oldState.formContext,
+          ...newContext
         }
       };
     });
@@ -154,6 +172,42 @@ function useForm ({
     submitting
   ]);
 
+  const callbackFns = React.useMemo(() => {
+    return Object.keys(callbacks).reduce((accumulator, current) => {
+      accumulator[current] = (...args) => {
+        callbacks[current](
+          {
+            formValues,
+            formErrors,
+            setValue,
+            setForm,
+            onSubmit,
+            status,
+            submitting,
+            validateFields,
+            formContext,
+            setContext
+          },
+          ...args
+        );
+      };
+
+      return accumulator;
+    }, {});
+  }, [
+    callbacks,
+    formValues,
+    formErrors,
+    setValue,
+    setForm,
+    onSubmit,
+    status,
+    submitting,
+    validateFields,
+    formContext,
+    setContext
+  ]);
+
   return React.useMemo(
     () => ({
       formValues,
@@ -163,9 +217,26 @@ function useForm ({
       onSubmit,
       status,
       submitting,
-      validateFields
+      validateFields,
+      formContext,
+      setContext,
+      callbacks: {
+        ...callbackFns
+      }
     }),
-    [formValues, formErrors, setValue, setForm, onSubmit, status, submitting, validateFields]
+    [
+      formValues,
+      formErrors,
+      setValue,
+      setForm,
+      onSubmit,
+      status,
+      submitting,
+      validateFields,
+      formContext,
+      setContext,
+      callbackFns
+    ]
   );
 }
 
