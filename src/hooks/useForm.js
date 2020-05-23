@@ -13,7 +13,8 @@ function useForm ({
   method,
   withFile,
   initialContext = null,
-  callbacks = {}
+  callbacks = {},
+  transformFormBody
 }) {
   const initialFormContext = React.useRef(initialContext);
   const initialFormValues = React.useRef(initialValues);
@@ -137,14 +138,17 @@ function useForm ({
       return;
     }
 
-    if (beforeSubmit) beforeSubmit(formValues);
+    if (beforeSubmit) beforeSubmit({ formValues, formContext });
+
+    let formBody = formValues;
+    if (transformFormBody) formBody = transformFormBody({ formValues, formContext });
 
     try {
       const xhrAgent = withFile ? xhrWithFile : xhr;
 
       const response = await xhrAgent(apiEndpoint, {
         method,
-        body: formValues
+        body: formBody
       });
 
       setState(oldState => ({
@@ -169,7 +173,9 @@ function useForm ({
     method,
     afterSubmit,
     beforeSubmit,
-    submitting
+    submitting,
+    formContext,
+    transformFormBody
   ]);
 
   const callbackFns = React.useMemo(() => {
