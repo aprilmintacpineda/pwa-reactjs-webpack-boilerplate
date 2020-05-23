@@ -77,9 +77,14 @@ function useForm ({
 
   const setValue = React.useCallback((name, value) => {
     setState(oldState => {
-      const newFormErrors = { ...oldState.formErrors };
+      const nameConstructor = name.constructor;
       const updatedValues =
-        name.constructor === Function ? name(oldState.formValues) : { [name]: value };
+        nameConstructor === Function
+          ? name(oldState.formValues)
+          : nameConstructor === Object
+          ? name
+          : { [name]: value };
+      const newFormErrors = { ...oldState.formErrors };
       const newFormValues = {
         ...oldState.formValues,
         ...updatedValues
