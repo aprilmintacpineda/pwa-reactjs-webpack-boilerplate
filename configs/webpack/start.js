@@ -1,10 +1,9 @@
 /** @format */
 
 const path = require('path');
-const generateConfig = require('./base');
 
 module.exports = {
-  ...generateConfig(),
+  ...require('./generateConfig')(),
   watch: true,
   devtool: 'source-map',
   watchOptions: {
