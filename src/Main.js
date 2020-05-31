@@ -8,11 +8,6 @@ import TestForm from 'routes/TestForm';
 
 function Main () {
   console.log('process.env', process.env);
-  console.log('process.env.array', process.env.array);
-  console.log('process.env.object', process.env.object);
-  console.log('process.env.api_url', process.env.api_url);
-  console.log('process.env.bool', process.env.bool);
-  console.log('process.env.num', process.env.num);
 
   return (
     <BrowserRouter>
