@@ -192,7 +192,14 @@ function useForm ({
         status: 'submitError'
       }));
 
-      if (afterSubmit) afterSubmit(error, null);
+      if (afterSubmit) {
+        afterSubmit(error, null, {
+          setValue,
+          setContext,
+          formValues,
+          formContext
+        });
+      }
     }
   }, [
     validateForm,
