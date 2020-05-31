@@ -29,6 +29,16 @@ function useForm ({
 
   const submitting = status === 'submitting';
 
+  const clearForm = React.useCallback(() => {
+    if (submitting) return;
+
+    setState({
+      formValues: { ...initialFormValues.current },
+      formErrors: {},
+      formContext: { ...initialFormContext.current }
+    });
+  }, [submitting]);
+
   const setForm = React.useCallback((values, errors) => {
     setState(oldState => {
       let newValues = values;
@@ -204,7 +214,8 @@ function useForm ({
             submitting,
             validateFields,
             formContext,
-            setContext
+            setContext,
+            clearForm
           },
           ...args
         );
@@ -223,7 +234,8 @@ function useForm ({
     submitting,
     validateFields,
     formContext,
-    setContext
+    setContext,
+    clearForm
   ]);
 
   return React.useMemo(
@@ -238,6 +250,7 @@ function useForm ({
       validateFields,
       formContext,
       setContext,
+      clearForm,
       callbacks: {
         ...callbackFns
       }
@@ -253,7 +266,8 @@ function useForm ({
       validateFields,
       formContext,
       setContext,
-      callbackFns
+      callbackFns,
+      clearForm
     ]
   );
 }
