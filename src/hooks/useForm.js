@@ -178,14 +178,14 @@ function useForm ({
         status: 'submitSuccess'
       }));
 
-      if (afterSubmit) afterSubmit(response, 'success');
+      if (afterSubmit) afterSubmit(null, response);
     } catch (error) {
       setState(oldState => ({
         ...oldState,
         status: 'submitError'
       }));
 
-      if (afterSubmit) afterSubmit(error, 'error');
+      if (afterSubmit) afterSubmit(error, null);
     }
   }, [
     validateForm,
