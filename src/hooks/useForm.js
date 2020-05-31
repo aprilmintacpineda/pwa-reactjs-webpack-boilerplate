@@ -178,7 +178,14 @@ function useForm ({
         status: 'submitSuccess'
       }));
 
-      if (afterSubmit) afterSubmit(null, response);
+      if (afterSubmit) {
+        afterSubmit(null, response, {
+          setValue,
+          setContext,
+          formValues,
+          formContext
+        });
+      }
     } catch (error) {
       setState(oldState => ({
         ...oldState,
@@ -197,7 +204,9 @@ function useForm ({
     beforeSubmit,
     submitting,
     formContext,
-    transformFormBody
+    transformFormBody,
+    setValue,
+    setContext
   ]);
 
   const callbackFns = React.useMemo(() => {
@@ -209,7 +218,6 @@ function useForm ({
             formErrors,
             setValue,
             setForm,
-            onSubmit,
             status,
             submitting,
             validateFields,
@@ -229,7 +237,6 @@ function useForm ({
     formErrors,
     setValue,
     setForm,
-    onSubmit,
     status,
     submitting,
     validateFields,
