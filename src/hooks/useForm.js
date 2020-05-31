@@ -23,7 +23,7 @@ function useForm ({
   const [{ formValues, formErrors, status, formContext }, setState] = React.useState(() => ({
     formValues: { ...initialFormValues.current },
     formErrors: {},
-    formContext: { ...initialFormContext.current },
+    formContext: initialFormContext.current ? { ...initialFormContext.current } : null,
     status: 'initial'
   }));
 
@@ -35,7 +35,7 @@ function useForm ({
     setState({
       formValues: { ...initialFormValues.current },
       formErrors: {},
-      formContext: { ...initialFormContext.current }
+      formContext: initialFormContext.current ? { ...initialFormContext.current } : null
     });
   }, [submitting]);
 
