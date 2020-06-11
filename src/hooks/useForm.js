@@ -39,7 +39,7 @@ function useForm ({
     });
   }, [submitting]);
 
-  const setForm = React.useCallback((values, errors) => {
+  const setForm = React.useCallback(({ values = {}, errors = {} }) => {
     setState(oldState => {
       let newValues = values;
       let newErrors = errors;
@@ -151,7 +151,7 @@ function useForm ({
       status: 'submitting'
     }));
 
-    if (validateForm()) {
+    if (validateForm() || Object.values(formErrors).find(error => error)) {
       setState(oldState => ({
         ...oldState,
         status: 'validationError'
@@ -180,7 +180,7 @@ function useForm ({
 
       if (afterSubmit) {
         afterSubmit(null, response, {
-          setValue,
+          setForm,
           setContext,
           formValues,
           formContext
@@ -194,7 +194,7 @@ function useForm ({
 
       if (afterSubmit) {
         afterSubmit(error, null, {
-          setValue,
+          setForm,
           setContext,
           formValues,
           formContext
@@ -212,8 +212,9 @@ function useForm ({
     submitting,
     formContext,
     transformFormBody,
-    setValue,
-    setContext
+    setContext,
+    setForm,
+    formErrors
   ]);
 
   const callbackFns = React.useMemo(() => {
